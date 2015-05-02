@@ -18,6 +18,6 @@ Notes:
 - this was designed for the database for version 1.6 so comparability may be buggy.
 
 To Do List:
-[ ] add version control
-[ ] add future version support
-[ ] add tag retrieval 
+- [ ] add version control
+- [ ] add future version support
+- [ ] add tag retrieval 
