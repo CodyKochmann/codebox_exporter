@@ -63,14 +63,36 @@ cleaner_snippet_database={
     "snippet_db":snippet_array
 }
 output_filename="cb_extract"
-with open(output_filename+".json", "w") as f:
+with open("extracted_files/"+output_filename+".json", "w") as f:
     f.write(json.dumps(cleaner_snippet_database))
 
 import csv
 
-with open(output_filename+'.csv', 'wb') as csvfile:
+with open("extracted_files/"+output_filename+'.csv', 'wb') as csvfile:
     spamwriter = csv.writer(csvfile, delimiter='|')
     spamwriter.writerow(["name","modified","notes","content"])
     for i in cleaner_snippet_database["snippet_db"]:
         print i
         spamwriter.writerow([ i["name"], i["modified"], i["notes"], i["content"] ])
+#=====================================================================================
+# all code below extracts the code from the csv and generages the files it represents.
+#=====================================================================================
+import csv, base64
+
+def make_file(file_name,file_content):
+    try:
+        file_name="./extracted_files/"+file_name
+        with open(file_name,"w") as f:
+            f.write(base64.b64decode(file_content))
+        print("created "+file_name)
+    except:
+        pass
+
+with open('extracted_files/cb_extract.csv', 'rb') as csvfile:
+    spamreader = csv.reader(csvfile, delimiter='|')
+    row_guide=0
+    for row in spamreader:
+        if row_guide == 0:
+            row_guide=row
+        make_file(row[0], row[3])
+        make_file(row[0]+".notes", row[2])
